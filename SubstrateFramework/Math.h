@@ -218,13 +218,37 @@ public:
 
 	static Mat3x3 getRotX(type thetaDeg)
 	{
-		type thetaRad = thetaDeg * PI / 180;
+		type thetaRad = thetaDeg * PI / 180.f;
 		Mat3x3<type> mout;
 		mout.element[0][0] = 1;
 		mout.element[1][1] = cos(thetaRad);
 		mout.element[1][2] = -sin(thetaRad);
 		mout.element[2][1] = sin(thetaRad);
 		mout.element[2][2] = cos(thetaRad);
+		return mout;
+	}
+
+	static Mat3x3 getRotY(type thetaDeg)
+	{
+		type thetaRad = thetaDeg * PI / 180.f;
+		Mat3x3<type> mout;
+		mout.element[0][0] = cos(thetaRad);
+		mout.element[0][2] = sin(thetaRad);
+		mout.element[1][1] = 1;
+		mout.element[2][0] = -sin(thetaRad);
+		mout.element[2][2] = cos(thetaRad);
+		return mout;
+	}
+
+	static Mat3x3 getRotZ(type thetaDeg)
+	{
+		type thetaRad = thetaDeg * PI / 180.f;
+		Mat3x3<type> mout;
+		mout.element[0][0] = cos(thetaRad);
+		mout.element[0][1] = -sin(thetaRad);
+		mout.element[1][0] = sin(thetaRad);
+		mout.element[1][1] = cos(thetaRad);
+		mout.element[2][2] = 1;
 		return mout;
 	}
 };

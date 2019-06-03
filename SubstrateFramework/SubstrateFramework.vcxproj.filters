@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Shader Files">
+      <UniqueIdentifier>{fd1db1b7-0bc8-429c-a85c-ef4ce20ace13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -34,6 +37,9 @@
     </ClInclude>
     <ClInclude Include="Geometry.h">
       <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Shader Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,7 +10,6 @@ Core::~Core()
 
 void Core::start()
 {
-	Mat3x3<float>::getRotX(30.f).print();
 	if (!glfwInit())
 	{
 		Logger::printErrMsg("GLFW failed to initialize!", 10);
@@ -40,6 +39,8 @@ void Core::start()
 		0.0f, 0.5f, 0.f 
 	};
 
+	uint32_t shader = compileShaders(vertShad, fragShad);
+
 	unsigned int vertArray, vertBuffer, indBuffer;
 
 	//Vertex Array
@@ -64,6 +65,8 @@ void Core::start()
 	{
 		glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		glUseProgram(shader);
 		
 		glBindVertexArray(vertArray);
 		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);

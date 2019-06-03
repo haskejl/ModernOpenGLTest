@@ -6,6 +6,7 @@
 #include "Geometry.h"
 #include "Logger.h"
 #include "Math.h"
+#include "Shader.h"
 
 class Core
 {
