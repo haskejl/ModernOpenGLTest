@@ -30,6 +30,9 @@
     <ClCompile Include="FileLoader.cpp">
       <Filter>FileIO</Filter>
     </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
