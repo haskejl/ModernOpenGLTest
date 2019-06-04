@@ -10,16 +10,6 @@ Core::~Core()
 
 void Core::start()
 {
-	FileLoader fin;
-	fin.openFile("FragShader.shader");
-	std::string s;
-	while (fin.hasNextLine())
-	{
-		fin.readLine(s);
-		Logger::printMsg(s, 1);
-	}
-	fin.closeFile();
-
 	if (!glfwInit())
 	{
 		Logger::printErrMsg("GLFW failed to initialize!", 10);
@@ -49,7 +39,7 @@ void Core::start()
 		0.0f, 0.5f, 0.f 
 	};
 
-	uint32_t shader = compileShaders(vertShad, fragShad);
+	uint32_t shader = compileShaders(loadShaderFile("VertShader.shader"), loadShaderFile("FragShader.shader"));
 
 	unsigned int vertArray, vertBuffer, indBuffer;
 

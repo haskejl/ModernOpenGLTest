@@ -6,30 +6,21 @@
 
 #include "Logger.h"
 
-static std::string vertShad = R"(
-#version 330 core
-layout (location = 0) in vec3 aPos;
-
-out vec4 vertColor;
-
-void main()
+static std::string loadShaderFile(std::string fileName)
 {
-	gl_Position = vec4(aPos, 1.0);
-	vertColor = vec4(0.5, 0.0, 0.0, 1.0);
+	FileLoader fin;
+	fin.openFile(fileName);
+	std::string s;
+	while (fin.hasNextLine())
+	{
+		std::string temp;
+		fin.readLine(temp);
+		s.append(temp);
+		s.append("\n");
+	}
+	fin.closeFile();
+	return s;
 }
-)";
-
-static std::string fragShad = R"(
-#version 330 core
-out vec4 fragColor;
-
-in vec4 vertColor;
-
-void main()
-{
-	fragColor = vertColor;
-}
-)";
 
 static uint32_t compileShaders(std::string vs, std::string fs)
 {
