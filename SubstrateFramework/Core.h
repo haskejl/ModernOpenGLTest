@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "FileLoader.h"
 #include "Geometry.h"
 #include "Logger.h"
 #include "Math.h"

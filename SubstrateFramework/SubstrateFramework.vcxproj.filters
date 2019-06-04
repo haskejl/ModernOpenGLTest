@@ -16,6 +16,9 @@
     <Filter Include="Shader Files">
       <UniqueIdentifier>{fd1db1b7-0bc8-429c-a85c-ef4ce20ace13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FileIO">
+      <UniqueIdentifier>{917d1d88-8e52-449e-9fac-d7425b5aa599}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -23,6 +26,9 @@
     </ClCompile>
     <ClCompile Include="Core.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileLoader.cpp">
+      <Filter>FileIO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -41,5 +47,24 @@
     <ClInclude Include="Shader.h">
       <Filter>Shader Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileLoader.h">
+      <Filter>FileIO</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SubstrateFramework.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FragShader.shader">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="VertShader.shader">
+      <Filter>Shader Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

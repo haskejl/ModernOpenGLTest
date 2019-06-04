@@ -129,5 +129,8 @@ static uint32_t compileShaders(std::string vs, std::string fs)
 	glDetachShader(program, vertexShader);
 	glDetachShader(program, fragmentShader);
 
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
+
 	return program;
 }

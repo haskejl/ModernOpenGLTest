@@ -135,15 +135,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FileLoader.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Core.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FileLoader.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="Geometry.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SubstrateFramework.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FragShader.shader" />
+    <None Include="VertShader.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

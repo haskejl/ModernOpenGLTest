@@ -10,6 +10,16 @@ Core::~Core()
 
 void Core::start()
 {
+	FileLoader fin;
+	fin.openFile("FragShader.shader");
+	std::string s;
+	while (fin.hasNextLine())
+	{
+		fin.readLine(s);
+		Logger::printMsg(s, 1);
+	}
+	fin.closeFile();
+
 	if (!glfwInit())
 	{
 		Logger::printErrMsg("GLFW failed to initialize!", 10);
