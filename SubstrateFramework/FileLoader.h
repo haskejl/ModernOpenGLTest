@@ -3,6 +3,8 @@
 #include <fstream>
 #include <string>
 
+#include "Logger.h"
+
 class FileLoader
 {
 private:
