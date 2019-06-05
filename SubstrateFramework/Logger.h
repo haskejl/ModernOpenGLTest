@@ -4,32 +4,35 @@
 #include <signal.h>
 #include <string>
 
-class Logger
+namespace ssfw
 {
-private:
-
-public:
-
-	static const int verbocityLvl = 0;
-	
-	Logger() {}
-	~Logger() {}
-
-	static void printMsg(const std::string &s, const int importance)
+	class Logger
 	{
-		if (importance >= verbocityLvl)
-			std::fprintf(stdout, "%s\n", s.c_str());
-	}
+	private:
 
-	static void printExcep(const std::exception &e, const int importance)
-	{
-		if (importance >= verbocityLvl)
-			std::fprintf(stderr, "Error: %s\n", e.what());
-	}
+	public:
 
-	static void printErrMsg(const std::string &s, const int importance)
-	{
-		if (importance >= verbocityLvl)
-			std::fprintf(stderr, "%s\n", s.c_str());
-	}
-};
+		static const int verbocityLvl = 0;
+
+		Logger() {}
+		~Logger() {}
+
+		static void printMsg(const std::string &s, const int importance)
+		{
+			if (importance >= verbocityLvl)
+				std::fprintf(stdout, "%s\n", s.c_str());
+		}
+
+		static void printExcep(const std::exception &e, const int importance)
+		{
+			if (importance >= verbocityLvl)
+				std::fprintf(stderr, "Error: %s\n", e.what());
+		}
+
+		static void printErrMsg(const std::string &s, const int importance)
+		{
+			if (importance >= verbocityLvl)
+				std::fprintf(stderr, "%s\n", s.c_str());
+		}
+	};
+}

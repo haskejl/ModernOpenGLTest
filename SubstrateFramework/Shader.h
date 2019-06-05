@@ -6,122 +6,125 @@
 
 #include "Logger.h"
 
-static std::string loadShaderFile(std::string fileName)
+namespace ssfw
 {
-	FileLoader fin;
-	fin.openFile(fileName);
-	std::string s;
-	while (fin.hasNextLine())
+	static std::string loadShaderFile(std::string fileName)
 	{
-		std::string temp;
-		fin.readLine(temp);
-		s.append(temp);
-		s.append("\n");
+		FileLoader fin;
+		fin.openFile(fileName);
+		std::string s;
+		while (fin.hasNextLine())
+		{
+			std::string temp;
+			fin.readLine(temp);
+			s.append(temp);
+			s.append("\n");
+		}
+		fin.closeFile();
+		return s;
 	}
-	fin.closeFile();
-	return s;
-}
 
-static uint32_t compileShaders(std::string vs, std::string fs)
-{
-	//Read shaders into the appropriate buffers
-	std::string vSrc = vs;
-	std::string fSrc = fs;
-
-	//Create an empty vertex shader
-	uint32_t vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-	//Send the vertex shader code to GL. std::string.c_str is NULL terminated
-	const char *src = (const char *)vSrc.c_str();
-	glShaderSource(vertexShader, 1, &src, 0);
-
-	//Compile the vertex shader
-	glCompileShader(vertexShader);
-
-	int32_t isCompiled = 0;
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-	if (isCompiled == GL_FALSE)
+	static uint32_t compileShaders(std::string vs, std::string fs)
 	{
-		int32_t maxLength = 0;
-		glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
+		//Read shaders into the appropriate buffers
+		std::string vSrc = vs;
+		std::string fSrc = fs;
 
-		//maxLength includes the NULL character
-		std::vector<char> infoLog(maxLength);
-		glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
+		//Create an empty vertex shader
+		uint32_t vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
-		//Delete the shader
+		//Send the vertex shader code to GL. std::string.c_str is NULL terminated
+		const char *src = (const char *)vSrc.c_str();
+		glShaderSource(vertexShader, 1, &src, 0);
+
+		//Compile the vertex shader
+		glCompileShader(vertexShader);
+
+		int32_t isCompiled = 0;
+		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
+		if (isCompiled == GL_FALSE)
+		{
+			int32_t maxLength = 0;
+			glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
+
+			//maxLength includes the NULL character
+			std::vector<char> infoLog(maxLength);
+			glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
+
+			//Delete the shader
+			glDeleteShader(vertexShader);
+
+			std::string temp(infoLog.begin(), infoLog.end());
+			Logger::printErrMsg(temp, 10);
+
+			return -1;
+		}
+
+		//Create an empty fragment shader
+		uint32_t fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+		//Send the fragment shader source code to GL
+		src = (const char *)fSrc.c_str();
+		glShaderSource(fragmentShader, 1, &src, 0);
+
+		//Compile the fragment shader
+		glCompileShader(fragmentShader);
+
+		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
+		if (isCompiled == GL_FALSE)
+		{
+			int32_t maxLength = 0;
+			glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
+
+			std::vector<char> infoLog(maxLength);
+			glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
+
+			glDeleteShader(fragmentShader);
+			glDeleteShader(vertexShader);
+
+			std::string temp(infoLog.begin(), infoLog.end());
+			Logger::printErrMsg(temp, 10);
+
+			return -1;
+		}
+
+		//Compiled Successfully
+		uint32_t program = glCreateProgram();
+
+		//Attach shaders to the program
+		glAttachShader(program, vertexShader);
+		glAttachShader(program, fragmentShader);
+
+		//Link the program
+		glLinkProgram(program);
+
+		int32_t isLinked = 0;
+		glGetProgramiv(program, GL_LINK_STATUS, (int *)&isLinked);
+		if (isLinked == GL_FALSE)
+		{
+			int32_t maxLength = 0;
+			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+
+			std::vector<char> infoLog(maxLength);
+			glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
+
+			//Cleanup
+			glDeleteProgram(program);
+			glDeleteShader(vertexShader);
+			glDeleteShader(fragmentShader);
+
+			std::string temp(infoLog.begin(), infoLog.end());
+			Logger::printErrMsg(temp, 10);
+
+			return -1;
+		}
+
+		glDetachShader(program, vertexShader);
+		glDetachShader(program, fragmentShader);
+
 		glDeleteShader(vertexShader);
-
-		std::string temp(infoLog.begin(), infoLog.end());
-		Logger::printErrMsg(temp, 10);
-
-		return -1;
-	}
-
-	//Create an empty fragment shader
-	uint32_t fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-	//Send the fragment shader source code to GL
-	src = (const char *)fSrc.c_str();
-	glShaderSource(fragmentShader, 1, &src, 0);
-
-	//Compile the fragment shader
-	glCompileShader(fragmentShader);
-
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-	if (isCompiled == GL_FALSE)
-	{
-		int32_t maxLength = 0;
-		glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-		std::vector<char> infoLog(maxLength);
-		glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
-
 		glDeleteShader(fragmentShader);
-		glDeleteShader(vertexShader);
 
-		std::string temp(infoLog.begin(), infoLog.end());
-		Logger::printErrMsg(temp, 10);
-
-		return -1;
+		return program;
 	}
-
-	//Compiled Successfully
-	uint32_t program = glCreateProgram();
-	
-	//Attach shaders to the program
-	glAttachShader(program, vertexShader);
-	glAttachShader(program, fragmentShader);
-
-	//Link the program
-	glLinkProgram(program);
-
-	int32_t isLinked = 0;
-	glGetProgramiv(program, GL_LINK_STATUS, (int *)&isLinked);
-	if (isLinked == GL_FALSE)
-	{
-		int32_t maxLength = 0;
-		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
-
-		std::vector<char> infoLog(maxLength);
-		glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
-
-		//Cleanup
-		glDeleteProgram(program);
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
-
-		std::string temp(infoLog.begin(), infoLog.end());
-		Logger::printErrMsg(temp, 10);
-
-		return -1;
-	}
-
-	glDetachShader(program, vertexShader);
-	glDetachShader(program, fragmentShader);
-
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
-	return program;
 }

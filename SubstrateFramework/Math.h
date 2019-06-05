@@ -4,98 +4,101 @@
 
 #include "Logger.h"
 
-constexpr float PI = 3.14159265f;
-
-template<class type>
-class Vec3D
+namespace ssfw
 {
-private:
-	type x;
-	type y;
-	type z;
+	constexpr float PI = 3.14159265f;
 
-public:
-	Vec3D<type>(type xin, type yin, type zin);
+	template<class type>
+	class Vec3D
+	{
+	private:
+		type x;
+		type y;
+		type z;
 
-	Vec3D<type>();
+	public:
+		Vec3D<type>(type xin, type yin, type zin);
 
-	virtual ~Vec3D<type>() {}
+		Vec3D<type>();
 
-	Vec3D<type> operator+(const Vec3D<type> &vin) const;
+		virtual ~Vec3D<type>();
 
-	Vec3D<type> operator-(const Vec3D<type> &vin) const;
+		Vec3D<type> operator+(const Vec3D<type> &vin) const;
 
-	Vec3D<type> operator*(const type sin) const;
+		Vec3D<type> operator-(const Vec3D<type> &vin) const;
 
-	Vec3D<type> crossProd(const Vec3D<type> &vin) const;
+		Vec3D<type> operator*(const type sin) const;
 
-	type dotProd(const Vec3D<type> &vin) const;
+		Vec3D<type> crossProd(const Vec3D<type> &vin) const;
 
-	type magSqrd() const;
+		type dotProd(const Vec3D<type> &vin) const;
 
-	type mag() const;
+		type magSqrd() const;
 
-	void print();
-};
+		type mag() const;
 
-template<class type>
-class Vec4D
-{
-private:
-	type x;
-	type y;
-	type z;
-	type w;
-	
-public:
-	Vec4D<type>(type xin, type yin, type zin, type win);
+		void print();
+	};
 
-	Vec4D<type>();
+	template<class type>
+	class Vec4D
+	{
+	private:
+		type x;
+		type y;
+		type z;
+		type w;
 
-	virtual ~Vec4D<type>();
+	public:
+		Vec4D<type>(type xin, type yin, type zin, type win);
 
-	Vec4D<type> operator+(const Vec4D<type> &vin) const;
+		Vec4D<type>();
 
-	Vec4D<type> operator-(const Vec4D<type> &vin) const;
+		virtual ~Vec4D<type>();
 
-	Vec4D<type> operator*(const type sin) const;
+		Vec4D<type> operator+(const Vec4D<type> &vin) const;
 
-	type dotProd(const Vec4D<type> &vin) const;
-	
-	type magSqrd() const;
+		Vec4D<type> operator-(const Vec4D<type> &vin) const;
 
-	type mag() const;
+		Vec4D<type> operator*(const type sin) const;
 
-	void print();
-};
+		type dotProd(const Vec4D<type> &vin) const;
 
-template<class type>
-class Mat3x3
-{
-private:
-	type element[3][3];
-public:
-	Mat3x3(type ein[][3]);
-	
-	Mat3x3();
+		type magSqrd() const;
 
-	virtual ~Mat3x3();
+		type mag() const;
 
-	Mat3x3<type> operator+(Mat3x3<type> &min) const;
+		void print();
+	};
 
-	Mat3x3<type> operator-(Mat3x3<type> &min) const;
+	template<class type>
+	class Mat3x3
+	{
+	private:
+		type element[3][3];
+	public:
+		Mat3x3(type ein[][3]);
 
-	Mat3x3<type> operator*(Mat3x3<type> &min) const;
+		Mat3x3();
 
-	Mat3x3<type> operator*(type sin) const;
+		virtual ~Mat3x3();
 
-	Mat3x3<type> transpose() const;
+		Mat3x3<type> operator+(Mat3x3<type> &min) const;
 
-	void print() const;
+		Mat3x3<type> operator-(Mat3x3<type> &min) const;
 
-	static Mat3x3 getRotX(type thetaDeg);
+		Mat3x3<type> operator*(Mat3x3<type> &min) const;
 
-	static Mat3x3 getRotY(type thetaDeg);
+		Mat3x3<type> operator*(type sin) const;
 
-	static Mat3x3 getRotZ(type thetaDeg);
-};
+		Mat3x3<type> transpose() const;
+
+		void print() const;
+
+		static Mat3x3 getRotX(type thetaDeg);
+
+		static Mat3x3 getRotY(type thetaDeg);
+
+		static Mat3x3 getRotZ(type thetaDeg);
+	};
+}

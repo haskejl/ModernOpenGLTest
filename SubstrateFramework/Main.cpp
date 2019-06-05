@@ -1,8 +1,9 @@
 #include "Core.h"
+#include "Math.h"
 
 int main()
 {
-	Core c;
+	ssfw::Core c;
 	c.start();
 
 	return 0;
