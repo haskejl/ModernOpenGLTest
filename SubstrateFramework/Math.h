@@ -11,6 +11,7 @@ namespace ssfw
 	template<class type>
 	class Vec3D
 	{
+
 	private:
 		type x;
 		type y;
@@ -37,12 +38,19 @@ namespace ssfw
 
 		type mag() const;
 
+		type getX() const { return x; }
+
+		type getY() const { return y; }
+
+		type getZ() const { return z; }
+
 		void print();
 	};
 
 	template<class type>
 	class Vec4D
 	{
+
 	private:
 		type x;
 		type y;
@@ -68,12 +76,21 @@ namespace ssfw
 
 		type mag() const;
 
+		type getX() const { return x; }
+
+		type getY() const { return y; }
+
+		type getZ() const { return z; }
+		
+		type getW() const { return w; }
+
 		void print();
 	};
 
 	template<class type>
 	class Mat3x3
 	{
+
 	private:
 		type element[3][3];
 	public:
@@ -93,6 +110,8 @@ namespace ssfw
 
 		Mat3x3<type> transpose() const;
 
+		type getElement(int row, int col) const { return element[row][col]; }
+
 		void print() const;
 
 		static Mat3x3 getRotX(type thetaDeg);
@@ -100,5 +119,37 @@ namespace ssfw
 		static Mat3x3 getRotY(type thetaDeg);
 
 		static Mat3x3 getRotZ(type thetaDeg);
+	};
+
+	template<class type>
+	class Mat4x4
+	{
+
+	private:
+		type element[4][4];
+	public:
+		Mat4x4(type ein[][4]);
+
+		Mat4x4(Mat3x3<type> min, Vec3D<type> vin);
+
+		Mat4x4(Mat3x3<type> min, Vec4D<type> vin);
+
+		Mat4x4();
+
+		virtual ~Mat4x4();
+
+		Mat4x4<type> operator+(Mat4x4<type> &min) const;
+
+		Mat4x4<type> operator-(Mat4x4<type> &min) const;
+
+		Mat4x4<type> operator*(Mat4x4<type> &min) const;
+
+		Mat4x4<type> operator*(type sin) const;
+
+		Mat4x4<type> transpose() const;
+
+		type getElement(int row, int col) const { return element[row][col]; }
+
+		void print() const;
 	};
 }

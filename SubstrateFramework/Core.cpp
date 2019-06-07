@@ -12,6 +12,14 @@ namespace ssfw
 
 	void Core::start()
 	{
+		float f[3][3] = { {1.f, 1.f, 1.f}, {1.f, 1.f, 1.f}, {1.f, 1.f, 1.f} };
+		Mat3x3<float> m3(f);
+		Vec3D<float> vec(2.f, 2.f, 2.f);
+
+		Mat4x4<float> m4(m3, vec);
+
+		m4.print();
+
 		if (!glfwInit())
 		{
 			Logger::printErrMsg("GLFW failed to initialize!", 10);

@@ -254,7 +254,130 @@ namespace ssfw
 		return mout;
 	}
 
+	template<class type>
+	Mat4x4<type>::Mat4x4(type ein[][4])
+	{
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				element[i][j] = ein[i][j];
+	}
+
+	template<class type>
+	Mat4x4<type>::Mat4x4()
+	{
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				element[i][j] = 0;
+	}
+
+	//This constructor assumes the 4x4 matrix will be a tranformation matrix
+	template<class type>
+	Mat4x4<type>::Mat4x4(Mat3x3<type> min, Vec3D<type> vin)
+	{
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++)
+				element[i][j] = min.getElement(i, j);
+		
+		element[3][0] = element[3][1] = element[3][2] = 0;
+		
+		element[0][3] = vin.getX();
+		element[1][3] = vin.getY();
+		element[2][3] = vin.getZ();
+		element[3][3] = 1;
+	}
+
+	template<class type>
+	Mat4x4<type>::Mat4x4(Mat3x3<type> min, Vec4D<type> vin)
+	{
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++)
+				element[i][j] = min.getElement(i, j);
+
+		element[3][0] = element[3][1] = element[3][2] = 0;
+
+		element[0][3] = vin.getX();
+		element[1][3] = vin.getY();
+		element[2][3] = vin.getZ();
+		element[3][3] = vin.getW();
+	}
+
+	template<class type>
+	Mat4x4<type>::~Mat4x4() { }
+
+	template<class type>
+	Mat4x4<type> Mat4x4<type>::operator+(Mat4x4<type> &min) const
+	{
+		Mat4x4<type> mout;
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				mout.element[i][j] = element[i][j] + min.element[i][j];
+		return mout;
+	}
+
+	template<class type>
+	Mat4x4<type> Mat4x4<type>::operator-(Mat4x4<type> &min) const
+	{
+		Mat4x4<type> mout;
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				mout.element[i][j] = element[i][j] - min.element[i][j];
+		return mout;
+	}
+
+	template<class type>
+	Mat4x4<type> Mat4x4<type>::operator*(Mat4x4<type> &min) const
+	{
+		Mat4x4<type> mout;
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				for (int k = 0; k < 4; k++)
+					mout.element[i][j] += element[i][k] * min.element[k][j];
+		return mout;
+	}
+
+	template<class type>
+	Mat4x4<type> Mat4x4<type>::operator*(type sin) const
+	{
+		Mat4x4<type> mout;
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				mout.element[i][j] = element[i][j] * sin;
+		return mout;
+	}
+
+	template<class type>
+	Mat4x4<type> Mat4x4<type>::transpose() const
+	{
+		Mat4x4<type> mout;
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				mout.element[i][j] = element[j][i];
+		return mout;
+	}
+
+	template<class type>
+	void Mat4x4<type>::print() const
+	{
+		std::string msg;
+		for (int i = 0; i < 4; i++)
+		{
+			msg.append("|\t");
+			for (int j = 0; j < 4; j++)
+			{
+				msg.append(std::to_string(element[i][j]));
+				msg.append("\t");
+			}
+			msg.append("|\n");
+		}
+		Logger::printMsg(msg, 1);
+	}
+
 	template class Vec3D<float>;
 	template class Vec4D<float>;
 	template class Mat3x3<float>;
+	template class Mat4x4<float>;
+	template class Vec3D<int>;
+	template class Vec4D<int>;
+	template class Mat3x3<int>;
+	template class Mat4x4<int>;
 }
