@@ -12,14 +12,6 @@ namespace ssfw
 
 	void Core::start()
 	{
-		float f[3][3] = { {1.f, 1.f, 1.f}, {1.f, 1.f, 1.f}, {1.f, 1.f, 1.f} };
-		Mat3x3<float> m3(f);
-		Vec3D<float> vec(2.f, 2.f, 2.f);
-
-		Mat4x4<float> m4(m3, vec);
-
-		m4.print();
-
 		if (!glfwInit())
 		{
 			Logger::printErrMsg("GLFW failed to initialize!", 10);
@@ -34,28 +26,32 @@ namespace ssfw
 		}
 
 		glfwMakeContextCurrent(window);
+		glfwSwapInterval(1);
 
 		if (glewInit() != GLEW_OK)
 		{
 			Logger::printErrMsg("GLEW failed to initialize!", 10);
 		}
 
+		//Set OpenGL Settings
+		glClearColor(0.f, 0.f, 0.f, 1.f);
+
+
 		Triangle t(Vec3D<float>(-0.5f, -0.5f, 1.f), Vec3D<float>(0.f, 0.5f, 1.f), Vec3D<float>(0.5f, 0.5f, 1.f));
 
-		float positions[3 * 3] =
+		float positions[] =
 		{
 			-0.5f, -0.5f, 0.f,
 			0.5f, -0.5f, 0.f,
-			0.0f, 0.5f, 0.f
+			0.5f, 0.5f, 0.f,
+			-0.5f, 0.5f, 0.f
 		};
+		unsigned int indices[] = { 0, 1, 2, 2, 3, 0 };
 
 		uint32_t shader = compileShaders(loadShaderFile("VertShader.shader"), loadShaderFile("FragShader.shader"));
 
-		unsigned int vertArray, vertBuffer, indBuffer;
+		unsigned int vertBuffer, indBuffer;
 
-		//Vertex Array
-		glGenVertexArrays(1, &vertArray);
-		glBindVertexArray(vertArray);
 		//Vertex Buffer
 		glGenBuffers(1, &vertBuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, vertBuffer);
@@ -67,19 +63,19 @@ namespace ssfw
 		glGenBuffers(1, &indBuffer);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indBuffer);
 
-		unsigned int indices[3] = { 0, 1, 2 };
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 		//Shader
 
 		while (!glfwWindowShouldClose(window))
 		{
-			glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			glUseProgram(shader);
+			
+			int location = glGetUniformLocation(shader, "vertColor");
+			glUniform4f(location, 0.f, 1.f, 0.9f, 1.f);
 
-			glBindVertexArray(vertArray);
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 
 			glfwSwapBuffers(window);
