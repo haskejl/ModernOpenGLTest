@@ -43,40 +43,6 @@ namespace ssfw
 			Logger::printErrMsg("GLEW failed to initialize!", 10);
 		}
 
-		//float positions[] =
-		//{
-		//	-0.5f, -0.5f, 0.f,
-		//	0.5f, -0.5f, 0.f,
-		//	0.5f, 0.5f, 0.f,
-		//	-0.5f, 0.5f, 0.f
-		//};
-		//unsigned int indices[] = { 0, 1, 2, 2, 3, 0 };
-
-		/*float positions_s[] =
-		{
-			0.5f, 0.5f, -0.5f,
-			0.5f, -0.5f, -0.5f,
-			-0.5f, -0.5f, -0.5f,
-			-0.5f, 0.5f, -0.5f,
-			0.5f, 0.5f, 0.5f,
-			0.5f, -0.5f, 0.5f,
-			-0.5f, -0.5f, 0.5f,
-			-0.5f, 0.5f, 0.5f
-		};
-
-		float positions[24];
-		for (int i = 0; i < 24; i++)
-			positions[i] = positions_s[i];
-
-		unsigned int indices[6][6] = 
-		{
-			{ 7, 5, 4, 7, 6, 5 },
-			{ 4, 1, 0, 4, 5, 1 },
-			{ 5, 2, 1, 5, 6, 2 },
-			{ 0, 2, 3, 0, 1, 2 },
-			{ 0, 7, 4, 0, 3, 7 },
-			{ 2, 7, 3, 2, 6, 7 }
-		};*/
 		Mesh cube;
 		cube.loadMesh("Assets/Models/colorcube.dae");
 		cube.genBufs();
@@ -96,17 +62,26 @@ namespace ssfw
 		
 		while (!glfwWindowShouldClose(window))
 		{
+			Mat3x3<float> rotX = Mat3x3<float>::getRotX(45);
+			Mat3x3<float> rotY = Mat3x3<float>::getRotY(rot);
+			Mat3x3<float> rotZ = Mat3x3<float>::getRotZ(rot / 2);
+
+			rot += 0.25f;
+			if (rot > 720.f) rot = 0.f;
+			Mat4x4<float> transMat(rotX*rotY*rotZ, Vec3D<float>(0.f, 0.f, 0.f));
+			cube.srt(0.5f, transMat);
+
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			glUseProgram(shader);
 			
 			int location = glGetUniformLocation(shader, "vertColor");
+			glBindBuffer(GL_ARRAY_BUFFER, vertArray);
 			cube.vertBuf->bind();
 			for (int i = 0; i < cube.materials.size(); i++)
 			{
-				//glUniform4f(location, cube.materials[i].diffuse[0], cube.materials[i].diffuse[1], cube.materials[i].diffuse[2], cube.materials[i].diffuse[3]);
-				glUniform4f(location, 0.3f, 0.3f, 0.3f, 1.f);
 				cube.materials[i].indBuf->bind();
+				glUniform4f(location, cube.materials[i].specular[0], cube.materials[i].specular[1], cube.materials[i].specular[2], cube.materials[i].specular[3]);
 				glBindVertexArray(vertArray);
 				glDrawElements(GL_TRIANGLES, cube.materials[i].indices.size(), GL_UNSIGNED_INT, nullptr);
 			}

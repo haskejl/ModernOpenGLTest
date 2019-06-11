@@ -8,6 +8,8 @@
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
 #include "FileLoader.h"
+#include "Math.h"
+
 namespace ssfw
 {
 	class Mesh
@@ -69,8 +71,9 @@ namespace ssfw
 
 	private:
 		std::vector<float> vertices;
+		std::vector<float> transVerts;
 
-		void processMatProp4f(std::string &line, float f[]);
+		void processMatProp4f(std::string &line, float f[4]);
 		void removeOpeningTag(std::string &line);
 		void removeExponents(std::string &line);
 
@@ -80,5 +83,6 @@ namespace ssfw
 
 		void loadMesh(std::string filePath);
 		void genBufs();
+		void srt(float sin, Mat4x4<float> min);
 	};
 }

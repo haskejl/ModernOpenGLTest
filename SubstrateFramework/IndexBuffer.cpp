@@ -6,7 +6,8 @@ namespace ssfw
 	IndexBuffer::IndexBuffer(std::vector<unsigned int>  indices, GLenum drawType)
 	{
 		glGenBuffers(1, &bufferID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size()*sizeof(unsigned int), indices.data(), drawType);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferID);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, (indices.size()*sizeof(unsigned int)), indices.data(), drawType);
 	}
 
 

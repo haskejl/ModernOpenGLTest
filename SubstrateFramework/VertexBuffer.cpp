@@ -7,7 +7,8 @@ namespace ssfw
 	{
 		//Vertex Buffer Setup
 		glGenBuffers(1, &bufferID);
-		glBufferData(GL_ARRAY_BUFFER, positions.size()*sizeof(float), positions.data(), drawType);
+		glBindBuffer(GL_ARRAY_BUFFER, bufferID);
+		glBufferData(GL_ARRAY_BUFFER, (positions.size()*sizeof(float)), positions.data(), drawType);
 	}
 
 	VertexBuffer::~VertexBuffer()

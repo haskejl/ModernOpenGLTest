@@ -98,6 +98,7 @@ namespace ssfw
 						{
 							s = match[0];
 							vertices.push_back(strtof(s.c_str(), NULL));
+							transVerts.push_back(strtof(s.c_str(), NULL));
 							line = std::regex_replace(line, floatRegex, "", std::regex_constants::format_first_only);
 						}
 					}
@@ -141,6 +142,8 @@ namespace ssfw
 							assert(index < materials.size());
 							materials[index].indices.push_back(strtof(s.c_str(), NULL));
 							line = std::regex_replace(line, intRegex, "", std::regex_constants::format_first_only);
+//TODO: Process normals
+							line = std::regex_replace(line, intRegex, "", std::regex_constants::format_first_only);
 						}
 					}
 					fl.readLine(line);
@@ -158,18 +161,18 @@ namespace ssfw
 			materials[i].genBufs();
 	}
 
-	void Mesh::processMatProp4f(std::string &line, float f[])
+	void Mesh::processMatProp4f(std::string &line, float f[4])
 	{
 		std::smatch match;
 		std::string s;
 		std::regex floatRegex("[+-]*[0-9]+[.]{0,1}[0-9]*");
 		removeExponents(line);
 		removeOpeningTag(line);
-		for(unsigned char i=0; i<4; i++)
+		for(int i=0; i<4; i++)
 		{
 			std::regex_search(line, match, floatRegex);
-			s = match[0];
-			f[i] = std::strtof(s.c_str(), NULL);
+			f[i] = strtof(match[0].str().c_str(), NULL);
+			line = std::regex_replace(line, floatRegex, "", std::regex_constants::format_first_only);
 		}
 	}
 
@@ -184,5 +187,20 @@ namespace ssfw
 	{
 		std::regex stripRegex("[+-]*[0-9]+[.]{0,1}[0-9]*[e]{1}[-]{1}[0-9]+");
 		line = std::regex_replace(line, stripRegex, "0");
+	}
+
+	void Mesh::srt(float sin, Mat4x4<float> min)
+	{
+		for (int i = 0; i < vertices.size(); i++)
+			transVerts[i] = vertices[i] * sin;
+		for (int i = 0; i < vertices.size(); i++)
+		{
+			Vec3D<float> verts(transVerts[i], transVerts[i + 1], transVerts[i + 2]);
+			verts = min * verts;
+			transVerts[i] = verts.getX();
+			transVerts[++i] = verts.getY();
+			transVerts[++i] = verts.getZ();
+		}
+		vertBuf->update(transVerts);
 	}
 }
