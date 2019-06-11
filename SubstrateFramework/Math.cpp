@@ -220,7 +220,7 @@ namespace ssfw
 	{
 		type thetaRad = thetaDeg * PI / 180.f;
 		Mat3x3<type> mout;
-		mout.element[0][0] = 1;
+		mout.element[0][0] = 1.f;
 		mout.element[1][1] = cos(thetaRad);
 		mout.element[1][2] = -sin(thetaRad);
 		mout.element[2][1] = sin(thetaRad);
@@ -235,7 +235,7 @@ namespace ssfw
 		Mat3x3<type> mout;
 		mout.element[0][0] = cos(thetaRad);
 		mout.element[0][2] = sin(thetaRad);
-		mout.element[1][1] = 1;
+		mout.element[1][1] = 1.f;
 		mout.element[2][0] = -sin(thetaRad);
 		mout.element[2][2] = cos(thetaRad);
 		return mout;
