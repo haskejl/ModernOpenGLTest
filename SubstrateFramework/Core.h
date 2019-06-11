@@ -8,6 +8,7 @@
 #include "Geometry.h"
 #include "Logger.h"
 #include "Shader.h"
+#include "Mesh.h"
 
 namespace ssfw
 {

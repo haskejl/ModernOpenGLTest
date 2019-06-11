@@ -136,18 +136,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FileLoader.cpp" />
+    <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="Math.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileLoader.h" />
+    <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="Geometry.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SubstrateFramework.rc" />
