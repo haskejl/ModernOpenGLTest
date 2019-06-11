@@ -336,6 +336,18 @@ namespace ssfw
 	}
 
 	template<class type>
+	Vec3D<type> Mat4x4<type>::operator*(Vec3D<type> &vin) const
+	{
+		type x, y, z;
+		x = element[0][0] * vin.getX() + element[0][1] * vin.getY() + element[0][2] * vin.getZ() + element[0][3] * 1;
+		y = element[1][0] * vin.getX() + element[1][1] * vin.getY() + element[1][2] * vin.getZ() + element[1][3] * 1;
+		z = element[2][0] * vin.getX() + element[2][1] * vin.getY() + element[2][2] * vin.getZ() + element[2][3] * 1;
+
+		Vec3D<type> vout(x, y, z);
+		return vout;
+	}
+
+	template<class type>
 	Mat4x4<type> Mat4x4<type>::operator*(type sin) const
 	{
 		Mat4x4<type> mout;

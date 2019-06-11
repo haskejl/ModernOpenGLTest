@@ -32,22 +32,36 @@ namespace ssfw
 			Logger::printErrMsg("Failed to create window!", 10);
 		}
 
+		//Setup GLFW options
 		glfwMakeContextCurrent(window);
 		glfwSwapInterval(1);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 
 		if (glewInit() != GLEW_OK)
 		{
 			Logger::printErrMsg("GLEW failed to initialize!", 10);
 		}
 
-		float positions[] =
+		//float positions[] =
+		//{
+		//	-0.5f, -0.5f, 0.f,
+		//	0.5f, -0.5f, 0.f,
+		//	0.5f, 0.5f, 0.f,
+		//	-0.5f, 0.5f, 0.f
+		//};
+		//unsigned int indices[] = { 0, 1, 2, 2, 3, 0 };
+
+		float positions_s[] =
 		{
-			-0.5f, -0.5f, 0.f,
-			0.5f, -0.5f, 0.f,
-			0.5f, 0.5f, 0.f,
-			-0.5f, 0.5f, 0.f
+			0.5f, -0.5f, -0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f, 0.5f, -0.5f, 0.5f, 0.5f, 0.5f
 		};
-		unsigned int indices[] = { 0, 1, 2, 2, 3, 0 };
+
+		float positions[24];
+		for (int i = 0; i < 24; i++)
+			positions[i] = positions_s[i];
+
+		unsigned int indices[] = { 3, 0, 1, 7, 2, 3, 5, 6, 7, 1, 4, 5, 2, 4, 0, 7, 1, 5, 3, 2, 0, 7, 6, 2, 5, 4, 6, 1, 0, 4, 2, 6, 4, 7, 3, 1 };
 
 		unsigned int vertArray, vertBuffer, indBuffer;
 
@@ -77,10 +91,24 @@ namespace ssfw
 		glUseProgram(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
+		float rot = 0.f;
+		
 		while (!glfwWindowShouldClose(window))
 		{
-			glClear(GL_COLOR_BUFFER_BIT);
+			for (int i = 0; i < 24; i+=3)
+			{
+				Vec3D<float> v(positions_s[i], positions_s[i + 1], positions_s[i + 2]);
+				Mat4x4<float> mRot(Mat3x3<float>::getRotZ(rot), Vec4D<float>(0.f, 0.f, 0.f, 1.f));
+				v = mRot * v;
+				positions[i]	= v.getX();
+				positions[i + 1]= v.getY();
+				positions[i + 2]= v.getZ();
+			}
+			rot += 0.5f;
+			glBindBuffer(GL_ARRAY_BUFFER, vertArray);
+			glBufferSubData(GL_ARRAY_BUFFER, 0.f, sizeof(positions), positions);
+
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			glUseProgram(shader);
 			
@@ -88,7 +116,7 @@ namespace ssfw
 			glUniform4f(location, 0.f, 1.f, 0.9f, 1.f);
 			glBindVertexArray(vertArray);
 
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
 
 
 			glfwSwapBuffers(window);

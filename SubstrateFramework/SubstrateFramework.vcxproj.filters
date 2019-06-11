@@ -19,6 +19,9 @@
     <Filter Include="FileIO">
       <UniqueIdentifier>{917d1d88-8e52-449e-9fac-d7425b5aa599}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{7978a672-fe5c-4fcf-a389-b64fdc7c29e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -31,21 +34,15 @@
       <Filter>FileIO</Filter>
     </ClCompile>
     <ClCompile Include="Math.cpp">
-      <Filter>Resource Files</Filter>
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="Math.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
     <ClInclude Include="Core.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Geometry.h">
-      <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Shader Files</Filter>
@@ -55,6 +52,12 @@
     </ClInclude>
     <ClInclude Include="FileLoader.h">
       <Filter>FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

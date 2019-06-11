@@ -144,6 +144,8 @@ namespace ssfw
 
 		Mat4x4<type> operator*(Mat4x4<type> &min) const;
 
+		Vec3D<type> operator*(Vec3D<type> &vin) const;
+
 		Mat4x4<type> operator*(type sin) const;
 
 		Mat4x4<type> transpose() const;
