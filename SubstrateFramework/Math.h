@@ -119,6 +119,8 @@ namespace ssfw
 		static Mat3x3 getRotY(type thetaDeg);
 
 		static Mat3x3 getRotZ(type thetaDeg);
+
+		static Mat3x3 getIdentMat();
 	};
 
 	template<class type>
@@ -150,7 +152,7 @@ namespace ssfw
 
 		Mat4x4<type> transpose() const;
 
-		Mat4x4<type> getIdentMat() const;
+		static Mat4x4<type> getIdentMat();
 
 		type getElement(int row, int col) const { return element[row][col]; }
 

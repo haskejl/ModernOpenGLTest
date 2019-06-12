@@ -255,6 +255,18 @@ namespace ssfw
 	}
 
 	template<class type>
+	Mat3x3<type> Mat3x3<type>::getIdentMat()
+	{
+		type ret[3][3] =
+		{
+			{1.f, 0.f, 0.f},
+			{0.f, 1.f, 0.f},
+			{0.f, 0.f, 1.f},
+		};
+		return Mat3x3<type>(ret);
+	}
+
+	template<class type>
 	Mat4x4<type>::Mat4x4(type ein[][4])
 	{
 		for (int i = 0; i < 4; i++)
@@ -368,9 +380,9 @@ namespace ssfw
 	}
 
 	template<class type>
-	Mat4x4<type> Mat4x4<type>::getIdentMat() const
+	Mat4x4<type> Mat4x4<type>::getIdentMat()
 	{
-		type ret =
+		type ret[4][4] =
 		{
 			{1.f, 0.f, 0.f, 0.f},
 			{0.f, 1.f, 0.f, 0.f},
