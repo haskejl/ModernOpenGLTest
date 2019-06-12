@@ -368,6 +368,19 @@ namespace ssfw
 	}
 
 	template<class type>
+	Mat4x4<type> Mat4x4<type>::getIdentMat() const
+	{
+		type ret =
+		{
+			{1.f, 0.f, 0.f, 0.f},
+			{0.f, 1.f, 0.f, 0.f},
+			{0.f, 0.f, 1.f, 0.f},
+			{0.f, 0.f, 0.f, 1.f}
+		};
+		return Mat4x4<type>(ret);
+	}
+
+	template<class type>
 	void Mat4x4<type>::print() const
 	{
 		std::string msg;

@@ -150,6 +150,8 @@ namespace ssfw
 
 		Mat4x4<type> transpose() const;
 
+		Mat4x4<type> getIdentMat() const;
+
 		type getElement(int row, int col) const { return element[row][col]; }
 
 		void print() const;
