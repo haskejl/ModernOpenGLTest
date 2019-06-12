@@ -157,15 +157,6 @@ namespace ssfw
 								materials[index].indices.push_back((unsigned int)f);
 							i++;
 						}
-						/*while (regex_search(line, match, intRegex))
-						{
-							s = match[0];
-							assert(index < materials.size());
-							materials[index].indices.push_back(strtof(s.c_str(), NULL));
-							line = std::regex_replace(line, intRegex, "", std::regex_constants::format_first_only);
-//TODO: Process normals
-							line = std::regex_replace(line, intRegex, "", std::regex_constants::format_first_only);
-						}*/
 					}
 					fl.readLine(line);
 				}
