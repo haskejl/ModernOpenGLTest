@@ -1,5 +1,4 @@
 #include "Core.h"
-#include "Math.h"
 
 int main()
 {

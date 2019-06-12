@@ -17,11 +17,7 @@ namespace ssfw
 			Logger::printErrMsg("GLFW failed to initialize!", 10);
 		}
 
-		//Setup OpenGL Version and Options
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		glClearColor(0.f, 0.f, 0.f, 1.f);
+		setOpenGLVersion();
 
 		//Create a window using GLFW
 		window = glfwCreateWindow(640, 480, "SubstrateFrameworkGame", NULL, NULL);
@@ -32,19 +28,17 @@ namespace ssfw
 			Logger::printErrMsg("Failed to create window!", 10);
 		}
 
-		//Setup GLFW options
 		glfwMakeContextCurrent(window);
-		glfwSwapInterval(1);
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LESS);
 
 		if (glewInit() != GLEW_OK)
 		{
 			Logger::printErrMsg("GLEW failed to initialize!", 10);
 		}
 
+		setWindowSettings();
+
 		Mesh cube;
-		cube.loadMesh("Assets/Models/generic.dae");
+		cube.loadMesh("Assets/Models/colorcube.dae");
 		cube.genBufs();
 
 		unsigned int vertArray;
@@ -90,5 +84,23 @@ namespace ssfw
 			glfwPollEvents();
 		}
 		glfwTerminate();
+	}
+
+	//Setup the OpenGL version and profile
+	void Core::setOpenGLVersion()
+	{
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	}
+
+	//Setup the GLFW window settings
+	void Core::setWindowSettings()
+	{
+		glfwSwapInterval(1);
+		glClearColor(0.f, 0.f, 0.f, 1.f);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+		glfwSetKeyCallback(window, key_callback);
 	}
 }

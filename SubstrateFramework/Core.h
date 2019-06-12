@@ -9,6 +9,7 @@
 #include "Logger.h"
 #include "Shader.h"
 #include "Mesh.h"
+#include "Keyboard.h"
 
 namespace ssfw
 {
@@ -21,6 +22,8 @@ namespace ssfw
 		virtual ~Core();
 
 		void start();
+		void setOpenGLVersion();
+		void setWindowSettings();
 	};
 }
 
