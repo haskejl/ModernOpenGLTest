@@ -9,6 +9,7 @@
 #include "VertexBuffer.h"
 #include "FileLoader.h"
 #include "Math.h"
+#include "Logger.h"
 
 namespace ssfw
 {

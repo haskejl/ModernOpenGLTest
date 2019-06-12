@@ -93,13 +93,19 @@ namespace ssfw
 					{
 						removeExponents(line);
 						removeOpeningTag(line);
-						std::string s;
-						while (regex_search(line, match, floatRegex))
+
+						char* p = (char*)line.c_str();
+						char* end;
+						for (float f = std::strtof(p, &end); p != end; f = std::strtof(p, &end))
 						{
-							s = match[0];
-							vertices.push_back(strtof(s.c_str(), NULL));
-							transVerts.push_back(strtof(s.c_str(), NULL));
-							line = std::regex_replace(line, floatRegex, "", std::regex_constants::format_first_only);
+							p = end;
+							if (errno == ERANGE)
+							{
+								Logger::printErrMsg("Error Reading Vertices!", 5);
+								errno = 0;
+							}
+							vertices.push_back(f);
+							transVerts.push_back(f);
 						}
 					}
 					fl.readLine(line);
@@ -136,7 +142,22 @@ namespace ssfw
 					{
 						removeOpeningTag(line);
 						std::string s;
-						while (regex_search(line, match, intRegex))
+						char* p = (char*)line.c_str();
+						char* end;
+						int i = 0;
+						for (float f = std::strtof(p, &end); p != end; f = std::strtof(p, &end))
+						{
+							p = end;
+							if (errno == ERANGE)
+							{
+								Logger::printErrMsg("Error Reading Indices!", 5);
+								errno = 0;
+							}
+							if(i % 2 == 0)
+								materials[index].indices.push_back((unsigned int)f);
+							i++;
+						}
+						/*while (regex_search(line, match, intRegex))
 						{
 							s = match[0];
 							assert(index < materials.size());
@@ -144,7 +165,7 @@ namespace ssfw
 							line = std::regex_replace(line, intRegex, "", std::regex_constants::format_first_only);
 //TODO: Process normals
 							line = std::regex_replace(line, intRegex, "", std::regex_constants::format_first_only);
-						}
+						}*/
 					}
 					fl.readLine(line);
 				}

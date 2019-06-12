@@ -44,7 +44,7 @@ namespace ssfw
 		}
 
 		Mesh cube;
-		cube.loadMesh("Assets/Models/colorcube.dae");
+		cube.loadMesh("Assets/Models/generic.dae");
 		cube.genBufs();
 
 		unsigned int vertArray;
@@ -69,7 +69,7 @@ namespace ssfw
 			rot += 0.25f;
 			if (rot > 720.f) rot = 0.f;
 			Mat4x4<float> transMat(rotX*rotY*rotZ, Vec3D<float>(0.f, 0.f, 0.f));
-			cube.srt(0.5f, transMat);
+			cube.srt(0.15f, transMat);
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
