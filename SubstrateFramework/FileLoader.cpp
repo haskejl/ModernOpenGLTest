@@ -31,7 +31,7 @@ namespace ssfw
 		try
 		{
 			std::getline(file, lineOut, '\n');
-			Logger::printMsg(lineOut, 1);
+			//Logger::printMsg(lineOut, 1);
 		}
 		catch (std::ifstream::failure e)
 		{

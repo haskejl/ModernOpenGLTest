@@ -10,10 +10,14 @@ namespace ssfw
 		right = rightin;
 		near = nearin;
 		far = farin;
+		setProjMat();
+		setViewMat();
 	}
 
 	Camera::Camera()
 	{
+		setProjMat();
+		setViewMat();
 	}
 
 	Camera::~Camera()
@@ -24,14 +28,14 @@ namespace ssfw
 
 	void Camera::setProjMat()
 	{
-		float a[4][4] = 
+		/*float a[4][4] = 
 		{
 			{ ((2 * near) / (right - left)), 0.f, ((right + left) / (right - left)), 0.f },
 			{ 0.f, ((2 * near) / (top - bottom)), (top + bottom) / (top - bottom), 0.f},
 			{ 0.f, 0.f, -((far + near) / (far - near)), -((2 * near*far) / (far - near))},
 			{ 0.f, 0.f, -1.f, 0.f}
-		};
-		projMat = new Mat4x4<float>(a);
+		};*/
+		projMat = new Mat4x4<float>(Mat4x4<float>::getIdentMat());
 	}
 
 	//sets the default camera position and rotation to 0, 0, 0 facing down the +z axis

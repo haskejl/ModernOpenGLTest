@@ -10,6 +10,7 @@
 #include "Shader.h"
 #include "Mesh.h"
 #include "Keyboard.h"
+#include "Renderer.h"
 
 namespace ssfw
 {

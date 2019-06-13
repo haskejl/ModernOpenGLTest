@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Logger.h"
+#include "FileLoader.h"
 
 namespace ssfw
 {

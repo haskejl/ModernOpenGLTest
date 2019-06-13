@@ -1,5 +1,7 @@
 #pragma once
 
+#include <GL/glew.h>
+
 #include "Math.h"
 
 namespace ssfw
@@ -19,5 +21,7 @@ namespace ssfw
 		void setProjMat();
 		void setViewMat();
 		void updateViewMat(Mat4x4<float> &transMat);
+		Mat4x4<float> getProjMat() { return *projMat; }
+		Mat4x4<float> getViewMat() { return *viewMat; }
 	};
 }

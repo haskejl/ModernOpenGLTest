@@ -393,6 +393,14 @@ namespace ssfw
 	}
 
 	template<class type>
+	void Mat4x4<type>::toArray(type aout[16])
+	{
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				aout[(i) + (j * 4)] = element[i][j];
+	}
+
+	template<class type>
 	void Mat4x4<type>::print() const
 	{
 		std::string msg;

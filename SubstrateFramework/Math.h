@@ -155,6 +155,8 @@ namespace ssfw
 		static Mat4x4<type> getIdentMat();
 
 		type getElement(int row, int col) const { return element[row][col]; }
+		
+		void toArray(type aout[16]);
 
 		void print() const;
 	};
