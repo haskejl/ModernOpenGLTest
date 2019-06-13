@@ -25,9 +25,6 @@
     <Filter Include="OpenGL Encap">
       <UniqueIdentifier>{acde4f27-096c-4948-9493-092321c49708}</UniqueIdentifier>
     </Filter>
-    <Filter Include="User Input">
-      <UniqueIdentifier>{2c9e15f6-180e-400f-9675-f672ca86856c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Renderer">
       <UniqueIdentifier>{67780e58-ccb5-400a-ab7a-7b4a67f786f2}</UniqueIdentifier>
     </Filter>
@@ -91,9 +88,6 @@
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">
       <Filter>OpenGL Encap</Filter>
-    </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>User Input</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Renderer</Filter>

@@ -7,6 +7,8 @@ namespace ssfw
 		cam = new Camera(-1.5f, 1.5f, -2.f, 2.f, -1.f, 1.f);
 		cube.loadMesh("Assets/Models/colorcube.dae");
 		cube.genBufs();
+		cube.setModelMat();
+		cube.updateModelMat(Mat4x4<float>((Mat3x3<float>::getIdentMat()*0.15f), Vec3D<float>(0.f, 0.f, 0.f)));
 		//Shader Setup
 		shader = compileShaders(loadShaderFile("VertShader.shader"), loadShaderFile("FragShader.shader"));
 		//Vertex Array Setup
@@ -26,12 +28,9 @@ namespace ssfw
 		float modMatA[16];
 		float viewMatA[16];
 		float projMatA[16];
-		Mat3x3<float> scale = Mat3x3<float>::getIdentMat()*0.5f;
-		Mat3x3<float> rot = Mat3x3<float>::getRotX(40);
-		rot = Mat3x3<float>::getRotY(10) * rot;
-		Mat4x4<float>::Mat4x4<float>(scale * rot , Vec3D<float>(0.f, 0.f, 0.f)).toArray(modMatA);
 		cam->getViewMat().toArray(viewMatA);
 		cam->getProjMat().toArray(projMatA);
+		cube.getModelMat().toArray(modMatA);
 		
 		//fMat.print();
 
@@ -70,5 +69,10 @@ namespace ssfw
 	{
 		Mat4x4<float> transMat(rotMat, movVec);
 		cam->updateViewMat(transMat);
+	}
+	void Renderer::moveCamera(float scalar)
+	{
+		Mat4x4<float>transMat(Mat3x3<float>::getIdentMat()*scalar, Vec3D<float>(0.f, 0.f, 0.f));
+		cube.updateModelMat(transMat);
 	}
 }

@@ -149,7 +149,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="FileLoader.h" />
     <ClInclude Include="IndexBuffer.h" />
-    <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Core.h" />

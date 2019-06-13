@@ -36,9 +36,9 @@ namespace ssfw
 		}
 
 		setWindowSettings();
-
 		Renderer renderer;
-		
+		glfwSetWindowUserPointer(window, (void *)&renderer);
+
 		while (!glfwWindowShouldClose(window))
 		{
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -73,5 +73,24 @@ namespace ssfw
 		glfwSetKeyCallback(window, key_callback);
 		glViewport(0, 0, 640, 480);
 		glDepthRangef(0.2f, 10.f);
+	}
+
+	void Core::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	{
+		Renderer *rend = (Renderer *)glfwGetWindowUserPointer(window);
+		if (key == GLFW_KEY_W && action == GLFW_PRESS)
+			rend->moveCamera(Vec3D<float>(0.f, 0.1f, 0.f));
+		else if (key == GLFW_KEY_S && action == GLFW_PRESS)
+			rend->moveCamera(Vec3D<float>(0.f, -0.1f, 0.f));
+		else if (key == GLFW_KEY_A && action == GLFW_PRESS)
+			rend->moveCamera(Vec3D<float>(-0.1f, 0.f, 0.f));
+		else if (key == GLFW_KEY_D && action == GLFW_PRESS)
+			rend->moveCamera(Vec3D<float>(0.1f, 0.f, 0.f));
+		else if (key == GLFW_KEY_E && action == GLFW_PRESS)
+			rend->moveCamera(Mat3x3<float>::getRotY(5));
+		else if (key == GLFW_KEY_F && action == GLFW_PRESS)
+			rend->moveCamera(0.95f);
+		else if (key == GLFW_KEY_R && action == GLFW_PRESS)
+			rend->moveCamera(1.05f);
 	}
 }

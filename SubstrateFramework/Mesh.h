@@ -72,7 +72,7 @@ namespace ssfw
 
 	private:
 		std::vector<float> vertices;
-		std::vector<float> transVerts;
+		Mat4x4<float> modelMat;
 
 		void processMatProp4f(std::string &line, float f[4]);
 		void removeOpeningTag(std::string &line);
@@ -84,6 +84,8 @@ namespace ssfw
 
 		void loadMesh(std::string filePath);
 		void genBufs();
-		void srt(float sin, Mat4x4<float> min);
+		void setModelMat();
+		void updateModelMat(Mat4x4<float> transMat);
+		Mat4x4<float> getModelMat() { return modelMat; };
 	};
 }

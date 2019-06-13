@@ -3,13 +3,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "FileLoader.h"
 #include "Math.h"
-#include "Geometry.h"
 #include "Logger.h"
-#include "Shader.h"
-#include "Mesh.h"
-#include "Keyboard.h"
 #include "Renderer.h"
 
 namespace ssfw
@@ -18,6 +13,8 @@ namespace ssfw
 	{
 	private:
 		GLFWwindow *window;
+
+		static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	public:
 		Core();
 		virtual ~Core();

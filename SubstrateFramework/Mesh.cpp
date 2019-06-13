@@ -105,7 +105,6 @@ namespace ssfw
 								errno = 0;
 							}
 							vertices.push_back(f);
-							transVerts.push_back(f);
 						}
 					}
 					fl.readLine(line);
@@ -173,6 +172,16 @@ namespace ssfw
 			materials[i].genBufs();
 	}
 
+	void Mesh::setModelMat()
+	{
+		modelMat = Mat4x4<float>::getIdentMat();
+	}
+
+	void Mesh::updateModelMat(Mat4x4<float> transMat)
+	{
+		modelMat = transMat * modelMat;
+	}
+
 	void Mesh::processMatProp4f(std::string &line, float f[4])
 	{
 		std::smatch match;
@@ -199,20 +208,5 @@ namespace ssfw
 	{
 		std::regex stripRegex("[+-]*[0-9]+[.]{0,1}[0-9]*[e]{1}[-]{1}[0-9]+");
 		line = std::regex_replace(line, stripRegex, "0");
-	}
-
-	void Mesh::srt(float sin, Mat4x4<float> min)
-	{
-		for (int i = 0; i < vertices.size(); i++)
-			transVerts[i] = vertices[i] * sin;
-		for (int i = 0; i < vertices.size(); i++)
-		{
-			Vec3D<float> verts(transVerts[i], transVerts[i + 1], transVerts[i + 2]);
-			verts = min * verts;
-			transVerts[i] = verts.getX();
-			transVerts[++i] = verts.getY();
-			transVerts[++i] = verts.getZ();
-		}
-		vertBuf->update(transVerts);
 	}
 }

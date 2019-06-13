@@ -46,6 +46,8 @@ namespace ssfw
 
 	void Camera::updateViewMat(Mat4x4<float> &transMat)
 	{
-		viewMat = &(*viewMat * transMat);
+		Mat4x4<float> *mm = viewMat;
+		viewMat = new Mat4x4<float>(transMat * *mm);
+		delete mm;
 	}
 }
