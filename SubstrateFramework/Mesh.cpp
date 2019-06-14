@@ -172,16 +172,6 @@ namespace ssfw
 			materials[i].genBufs();
 	}
 
-	void Mesh::setModelMat()
-	{
-		modelMat = Mat4x4<float>::getIdentMat();
-	}
-
-	void Mesh::updateModelMat(Mat4x4<float> transMat)
-	{
-		modelMat = transMat * modelMat;
-	}
-
 	void Mesh::processMatProp4f(std::string &line, float f[4])
 	{
 		std::smatch match;

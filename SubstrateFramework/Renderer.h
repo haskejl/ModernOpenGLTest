@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Camera.h"
-#include "Shader.h"
 #include "Mesh.h"
+#include "Shader.h"
+#include "AssetManager.h"
 
 namespace ssfw
 {
@@ -10,7 +11,7 @@ namespace ssfw
 	{
 	private:
 		Camera *cam;
-		Mesh cube;
+		AssetManager am;
 		uint32_t shader;
 		unsigned int vertArray;
 

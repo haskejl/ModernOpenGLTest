@@ -5,10 +5,8 @@ namespace ssfw
 	Renderer::Renderer()
 	{
 		cam = new Camera(-1.5f, 1.5f, -2.f, 2.f, -1.f, 1.f);
-		cube.loadMesh("Assets/Models/colorcube.dae");
-		cube.genBufs();
-		cube.setModelMat();
-		cube.updateModelMat(Mat4x4<float>((Mat3x3<float>::getIdentMat()*0.15f), Vec3D<float>(0.f, 0.f, 0.f)));
+		am.loadMeshes();
+		am.createModels();
 		//Shader Setup
 		shader = compileShaders(loadShaderFile("VertShader.shader"), loadShaderFile("FragShader.shader"));
 		//Vertex Array Setup
@@ -30,9 +28,6 @@ namespace ssfw
 		float projMatA[16];
 		cam->getViewMat().toArray(viewMatA);
 		cam->getProjMat().toArray(projMatA);
-		cube.getModelMat().toArray(modMatA);
-		
-		//fMat.print();
 
 		//Draw objects
 		glUseProgram(shader);
@@ -41,17 +36,23 @@ namespace ssfw
 		int locViewMat = glGetUniformLocation(shader, "viewMat");
 		int locProjMat = glGetUniformLocation(shader, "projMat");
 		glBindBuffer(GL_ARRAY_BUFFER, vertArray);
-		cube.vertBuf->bind();
-		for (int i = 0; i < cube.materials.size(); i++)
-		{
-			cube.materials[i].indBuf->bind();
-			glUniform4f(location, cube.materials[i].specular[0], cube.materials[i].specular[1], cube.materials[i].specular[2], cube.materials[i].specular[3]);
-			glUniformMatrix4fv(locModMat, 1, false, &modMatA[0]);
-			glUniformMatrix4fv(locViewMat, 1, false, &viewMatA[0]);
-			glUniformMatrix4fv(locProjMat, 1, false, &projMatA[0]);
 
-			glBindVertexArray(vertArray);
-			glDrawElements(GL_TRIANGLES, cube.materials[i].indices.size(), GL_UNSIGNED_INT, nullptr);
+		while (am.hasMoreModels())
+		{
+			Mesh m;
+			am.getNextModel(m, modMatA);
+			m.vertBuf->bind();
+			for (int i = 0; i < m.materials.size(); i++)
+			{
+					m.materials[i].indBuf->bind();
+				glUniform4f(location, m.materials[i].specular[0], m.materials[i].specular[1], m.materials[i].specular[2], m.materials[i].specular[3]);
+				glUniformMatrix4fv(locModMat, 1, false, &modMatA[0]);
+				glUniformMatrix4fv(locViewMat, 1, false, &viewMatA[0]);
+				glUniformMatrix4fv(locProjMat, 1, false, &projMatA[0]);
+
+				glBindVertexArray(vertArray);
+				glDrawElements(GL_TRIANGLES, m.materials[i].indices.size(), GL_UNSIGNED_INT, nullptr);
+			}
 		}
 	}
 
@@ -70,9 +71,10 @@ namespace ssfw
 		Mat4x4<float> transMat(rotMat, movVec);
 		cam->updateViewMat(transMat);
 	}
+	//Gives the illusion of zooming in by scaling the view matrix
 	void Renderer::moveCamera(float scalar)
 	{
 		Mat4x4<float>transMat(Mat3x3<float>::getIdentMat()*scalar, Vec3D<float>(0.f, 0.f, 0.f));
-		cube.updateModelMat(transMat);
+		cam->updateViewMat(transMat);
 	}
 }

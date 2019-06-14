@@ -84,8 +84,5 @@ namespace ssfw
 
 		void loadMesh(std::string filePath);
 		void genBufs();
-		void setModelMat();
-		void updateModelMat(Mat4x4<float> transMat);
-		Mat4x4<float> getModelMat() { return modelMat; };
 	};
 }
