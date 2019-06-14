@@ -3,18 +3,19 @@
 #include "FileLoader.h"
 #include "Logger.h"
 #include "Mesh.h"
+#include "Model.h"
 
 namespace ssfw
 {
 	class AssetManager
 	{
 	private:
-		Mat4x4<float> meshTransMat[1000];
 		Mesh meshes[100];
+		Model models[1000];
 
-		int meshTransMatCount;
+		int modelCount;
 		int meshCount;
-		int meshIterCounter;
+		int modelIterCounter;
 
 	public:
 		AssetManager();

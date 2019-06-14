@@ -4,9 +4,9 @@ namespace ssfw
 {
 	AssetManager::AssetManager()
 	{
-		meshTransMatCount = 0;
+		modelCount = 0;
 		meshCount = 0;
-		meshIterCounter = 0;
+		modelIterCounter = 0;
 	}
 
 
@@ -21,25 +21,26 @@ namespace ssfw
 	}
 	void AssetManager::createModels()
 	{
-		meshTransMat[meshTransMatCount++] = Mat4x4<float>((Mat3x3<float>::getIdentMat()*0.2f), Vec3D<float>(0.f, 0.f, 0.f));
-		meshTransMat[meshTransMatCount++] = Mat4x4<float>((Mat3x3<float>::getIdentMat()*0.2f), Vec3D<float>(1.f, 0.f, 0.f));
+		Mat4x4<float> transMat = Mat4x4<float>((Mat3x3<float>::getIdentMat()*0.2f), Vec3D<float>(0.f, 0.f, 0.f));
+		models[modelCount++].create(meshes[0], transMat);
+		transMat =  Mat4x4<float>((Mat3x3<float>::getIdentMat()*0.2f), Vec3D<float>(1.f, 0.f, 0.f));
+		models[modelCount++].create(meshes[0], transMat);
 	}
 	bool AssetManager::hasMoreModels()
 	{
-		if (meshIterCounter < meshTransMatCount)
+		if (modelIterCounter < modelCount)
 		{
-			meshIterCounter++;
 			return true;
 		}
 		else
 		{
-			meshIterCounter = 0;
+			modelIterCounter = 0;
 			return false;
 		}
 	}
 	void AssetManager::getNextModel(Mesh &m, float f[16])
 	{
-		m = meshes[0];
-		meshTransMat[meshIterCounter-1].toArray(f);
+		m = models[modelIterCounter].getMesh();
+		models[modelIterCounter++].getTransMat().toArray(f);
 	}
 }
