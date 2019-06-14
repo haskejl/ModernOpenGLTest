@@ -1,27 +1,22 @@
 #pragma once
 
-#include <vector>
+#include <string>
 
 #include "Mesh.h"
-//#include "Material.h"
-#include "Math.h"
 
 namespace ssfw
 {
-	class Model
+	//Wraps meshID and model->world matrix in a struct
+	struct Model
 	{
-	private:
-		Mesh *mesh;
+		std::string meshID;
 		Mat4x4<float> toWorldMat;
-		//std::vector<Material*> mats;
 
-	public:
-		Model(Mesh &meshin, Mat4x4<float> &min);
-		Model();
-		~Model();
-
-		void create(Mesh &meshin, Mat4x4<float> &min);
-		Mesh &getMesh() { return *mesh; }
-		Mat4x4<float> &getTransMat() { return toWorldMat; }
-	};
+		//Method to create a new mesh
+		inline void create(std::string &mID, Mat4x4<float> transMat)
+		{
+			meshID = mID;
+			toWorldMat = transMat;
+		}//end void create(std::string, Mat4x4<float>)
+	};// End struct Model
 }

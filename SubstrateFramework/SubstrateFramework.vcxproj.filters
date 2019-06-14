@@ -63,9 +63,6 @@
     <ClCompile Include="AssetManager.cpp">
       <Filter>Assets</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Assets</Filter>
-    </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Assets</Filter>
     </ClCompile>

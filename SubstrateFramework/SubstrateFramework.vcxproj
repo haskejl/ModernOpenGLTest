@@ -143,7 +143,6 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />

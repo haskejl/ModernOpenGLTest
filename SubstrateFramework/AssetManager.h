@@ -1,5 +1,8 @@
 #pragma once
 
+#include <map>
+#include <string>
+
 #include "FileLoader.h"
 #include "Logger.h"
 #include "Mesh.h"
@@ -10,11 +13,11 @@ namespace ssfw
 	class AssetManager
 	{
 	private:
-		Mesh meshes[100];
+		std::map<std::string, Mesh> meshMap;
+		//TODO: make vector<Model> models
 		Model models[1000];
 
 		int modelCount;
-		int meshCount;
 		int modelIterCounter;
 
 	public:
