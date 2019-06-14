@@ -21,7 +21,7 @@ namespace ssfw
 	}
 	void AssetManager::createModels()
 	{
-		meshTransMat[meshTransMatCount++] = Mat4x4<float>((Mat3x3<float>::getIdentMat()*0.15f), Vec3D<float>(0.f, 0.f, 0.f));
+		meshTransMat[meshTransMatCount++] = Mat4x4<float>((Mat3x3<float>::getIdentMat()*0.2f), Vec3D<float>(0.f, 0.f, 0.f));
 		meshTransMat[meshTransMatCount++] = Mat4x4<float>((Mat3x3<float>::getIdentMat()*0.2f), Vec3D<float>(1.f, 0.f, 0.f));
 	}
 	bool AssetManager::hasMoreModels()

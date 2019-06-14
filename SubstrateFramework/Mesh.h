@@ -10,62 +10,12 @@
 #include "FileLoader.h"
 #include "Math.h"
 #include "Logger.h"
-
+#include "Material.h"
 namespace ssfw
 {
 	class Mesh
 	{
 	public:
-		struct Material
-		{
-			IndexBuffer *indBuf;
-
-			std::string matID;
-			std::vector<unsigned int> indices;
-
-			float *emission;
-			float *ambient;
-			float *diffuse;
-			float *specular;
-			float shininess;
-
-			Material(std::string mID)
-			{
-				emission = new float[4];
-				ambient = new float[4];
-				diffuse = new float[4];
-				specular = new float[4];
-
-				matID = mID;
-			}
-			Material(std::string mID, int ind[], float emi[], float amb[], float dif[], float spec[], float shi)
-			{
-				emission = new float[4];
-				ambient = new float[4];
-				diffuse = new float[4];
-				specular = new float[4];
-
-				matID = mID;
-				for (int i = 0; i < 4; i++)
-				{
-					emission[i] = emi[i];
-					ambient[i] = amb[i];
-					diffuse[i] = dif[i];
-					specular[i] = spec[i];
-				}
-				shininess = shi;
-			}
-			~Material()
-			{
-				indices.~vector();
-			}
-
-			void genBufs()
-			{
-				indBuf = new IndexBuffer(indices, GL_STATIC_DRAW);
-			}
-		};
-
 		std::vector<Material> materials;
 
 		VertexBuffer *vertBuf;

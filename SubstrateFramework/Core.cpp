@@ -72,7 +72,7 @@ namespace ssfw
 		glCullFace(GL_BACK);
 		glfwSetKeyCallback(window, key_callback);
 		glViewport(0, 0, 640, 480);
-		glDepthRangef(0.2f, 10.f);
+		//glDepthRangef(0.2f, 10.f);
 	}
 
 	void Core::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
