@@ -11,6 +11,7 @@
 #include "Math.h"
 #include "Logger.h"
 #include "Material.h"
+
 namespace ssfw
 {
 	class Mesh
@@ -19,14 +20,16 @@ namespace ssfw
 		std::vector<Material> materials;
 
 		VertexBuffer *vertBuf;
+		VertexBuffer *normBuf;
 
 	private:
 		std::vector<float> vertices;
+		std::vector<float> normals;
+
 		Mat4x4<float> modelMat;
 
 		void processMatProp4f(std::string &line, float f[4]);
 		void removeOpeningTag(std::string &line);
-		void removeExponents(std::string &line);
 
 	public:
 		Mesh();

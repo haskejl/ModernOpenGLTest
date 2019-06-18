@@ -2,16 +2,18 @@
 
 namespace ssfw
 {
+	//Default constructor
 	Mesh::Mesh()
 	{
-	}
+	}//end Mesh() constructor
 
-
+	//Default destructor
 	Mesh::~Mesh()
 	{
 		materials.~vector();
-	}
+	}//end ~Mesh() destructor
 
+	//This method loads the mesh from the location designated in the filePath variable
 	void Mesh::loadMesh(std::string filePath)
 	{
 		//Opening of block regex
@@ -70,8 +72,7 @@ namespace ssfw
 							{
 								std::smatch match;
 								std::string s;
-								std::regex floatRegex("[+-]*[0-9]+[.]{0,1}[0-9]*");
-								removeExponents(line);
+
 								removeOpeningTag(line);
 								std::regex_search(line, match, floatRegex);
 								s = match[0];
@@ -91,7 +92,6 @@ namespace ssfw
 				{
 					if (line.find("-positions-array\"") != std::string::npos)
 					{
-						removeExponents(line);
 						removeOpeningTag(line);
 
 						char* p = (char*)line.c_str();
@@ -110,6 +110,32 @@ namespace ssfw
 					fl.readLine(line);
 				}
 			}//All vertices loaded
+
+			 //Load normals into the mesh
+			else if (std::regex_match(line, vertexBlockStart))
+			{
+				while (fl.hasNextLine() && !regex_match(line, vertexBlockEnd))
+				{
+					if (line.find("-normals-array\"") != std::string::npos)
+					{
+						removeOpeningTag(line);
+
+						char* p = (char*)line.c_str();
+						char* end;
+						for (float f = std::strtof(p, &end); p != end; f = std::strtof(p, &end))
+						{
+							p = end;
+							if (errno == ERANGE)
+							{
+								Logger::printErrMsg("Error Reading Normals!", 5);
+								errno = 0;
+							}
+							normals.push_back(f);
+						}
+					}
+					fl.readLine(line);
+				}
+			}//All normals loaded
 
 			//Load indices into  material
 			else if (std::regex_match(line, triangleBlockStart))
@@ -164,20 +190,21 @@ namespace ssfw
 		fl.closeFile();
 	}
 
+	//Generates the vertex and index buffers for the vertices, normals, and materials associated with this model.
 	//Mesh must be loaded prior to use
 	void Mesh::genBufs()
 	{
 		vertBuf = new VertexBuffer(vertices, GL_DYNAMIC_DRAW);
+		//normBuf = new VertexBuffer(normals, GL_DYNAMIC_DRAW);
 		for (int i = 0; i < materials.size(); i++)
 			materials[i].genBufs();
-	}
+	}//end void genBufs() method
 
 	void Mesh::processMatProp4f(std::string &line, float f[4])
 	{
 		std::smatch match;
 		std::string s;
 		std::regex floatRegex("[+-]*[0-9]+[.]{0,1}[0-9]*");
-		removeExponents(line);
 		removeOpeningTag(line);
 		for(int i=0; i<4; i++)
 		{
@@ -185,18 +212,11 @@ namespace ssfw
 			f[i] = strtof(match[0].str().c_str(), NULL);
 			line = std::regex_replace(line, floatRegex, "", std::regex_constants::format_first_only);
 		}
-	}
+	}//end void processMatProp4f(std::string &line, float[4]) method
 
 	void Mesh::removeOpeningTag(std::string &line)
 	{
 		std::regex stripRegex("^\\s+<(p|.+\")>");
 		line = std::regex_replace(line, stripRegex, "", std::regex_constants::format_first_only);
-	}
-
-	//Assumes any number in scientific notation is 0
-	void Mesh::removeExponents(std::string &line)
-	{
-		std::regex stripRegex("[+-]*[0-9]+[.]{0,1}[0-9]*[e]{1}[-]{1}[0-9]+");
-		line = std::regex_replace(line, stripRegex, "0");
-	}
+	}//end void removeOpeningTag(&std::string) method
 }
