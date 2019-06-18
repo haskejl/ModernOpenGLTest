@@ -13,7 +13,8 @@ namespace ssfw
 		glGenVertexArrays(1, &vertArray);
 		glBindVertexArray(vertArray);
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), nullptr);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), nullptr);
 	}
 
 	Renderer::~Renderer()
@@ -49,7 +50,6 @@ namespace ssfw
 				glUniformMatrix4fv(locModMat, 1, false, &modMatA[0]);
 				glUniformMatrix4fv(locViewMat, 1, false, &viewMatA[0]);
 				glUniformMatrix4fv(locProjMat, 1, false, &projMatA[0]);
-
 				glBindVertexArray(vertArray);
 				glDrawElements(GL_TRIANGLES, m.materials[i].indices.size(), GL_UNSIGNED_INT, nullptr);
 			}

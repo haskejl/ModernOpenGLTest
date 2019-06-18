@@ -38,5 +38,6 @@ namespace ssfw
 	void Material::genBufs()
 	{
 		indBuf = new IndexBuffer(indices, GL_STATIC_DRAW);
+		//normBuf = new IndexBuffer(nIndices, GL_STATIC_DRAW);
 	}
 }

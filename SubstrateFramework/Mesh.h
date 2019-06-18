@@ -20,11 +20,11 @@ namespace ssfw
 		std::vector<Material> materials;
 
 		VertexBuffer *vertBuf;
-		VertexBuffer *normBuf;
 
 	private:
 		std::vector<float> vertices;
 		std::vector<float> normals;
+		std::vector<float> vertData;
 
 		Mat4x4<float> modelMat;
 

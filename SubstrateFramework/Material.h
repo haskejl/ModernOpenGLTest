@@ -10,9 +10,11 @@ namespace ssfw
 	{
 	public:
 		IndexBuffer *indBuf;
+		IndexBuffer *normBuf;
 
 		std::string matID;
 		std::vector<unsigned int> indices;
+		std::vector<unsigned int> nIndices;
 
 		float *emission;
 		float *ambient;

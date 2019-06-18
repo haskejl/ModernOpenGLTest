@@ -19,6 +19,7 @@ namespace ssfw
 		//Opening of block regex
 		std::regex materialBlockStart("^\\s+<library_effects>");
 		std::regex vertexBlockStart("^\\s+<source.+positions.+>");
+		std::regex normalBlockStart("^\\s+<source.+normals.+>");
 		std::regex triangleBlockStart("^\\s+<triangles.+>");
 
 		//Closing of block regex
@@ -112,7 +113,7 @@ namespace ssfw
 			}//All vertices loaded
 
 			 //Load normals into the mesh
-			else if (std::regex_match(line, vertexBlockStart))
+			else if (std::regex_match(line, normalBlockStart))
 			{
 				while (fl.hasNextLine() && !regex_match(line, vertexBlockEnd))
 				{
@@ -178,8 +179,10 @@ namespace ssfw
 								Logger::printErrMsg("Error Reading Indices!", 5);
 								errno = 0;
 							}
-							if(i % 2 == 0)
+							if (i % 2 == 0)
 								materials[index].indices.push_back((unsigned int)f);
+							else
+								materials[index].nIndices.push_back((unsigned int)f);
 							i++;
 						}
 					}
@@ -188,14 +191,38 @@ namespace ssfw
 			}
 		}
 		fl.closeFile();
+
+		std::vector<float> vn;
+		//Use indices to unpack normals and vertices into one index array
+		//VERTEX, NORMAL
+		//[0]v1, v2, v3, n1, n2, n3
+		int indexCtr = 0;
+		for (int i = 0; i < materials.size(); i++)
+		{
+			for (int j = 0; j < materials[i].indices.size(); j++)
+			{
+				float k = materials[i].indices[j] * 3;
+				vertData.push_back(vertices[k++]);
+				vertData.push_back(vertices[k++]);
+				vertData.push_back(vertices[k]);
+
+				k = materials[i].nIndices[j] * 3;
+				vertData.push_back(normals[k++]);
+				vertData.push_back(normals[k++]);
+				vertData.push_back(normals[k]);
+
+				//Update vertex data in material
+				materials[i].indices[j] = indexCtr++;
+			}
+		}
+		//next index
 	}
 
 	//Generates the vertex and index buffers for the vertices, normals, and materials associated with this model.
 	//Mesh must be loaded prior to use
 	void Mesh::genBufs()
 	{
-		vertBuf = new VertexBuffer(vertices, GL_DYNAMIC_DRAW);
-		//normBuf = new VertexBuffer(normals, GL_DYNAMIC_DRAW);
+		vertBuf = new VertexBuffer(vertData, GL_DYNAMIC_DRAW);
 		for (int i = 0; i < materials.size(); i++)
 			materials[i].genBufs();
 	}//end void genBufs() method
