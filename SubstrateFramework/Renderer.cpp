@@ -32,10 +32,14 @@ namespace ssfw
 
 		//Draw objects
 		glUseProgram(shader);
-		int location = glGetUniformLocation(shader, "vertColor");
 		int locModMat = glGetUniformLocation(shader, "modMat");
 		int locViewMat = glGetUniformLocation(shader, "viewMat");
 		int locProjMat = glGetUniformLocation(shader, "projMat");
+		int locEmisIn = glGetUniformLocation(shader, "emisIn");
+		int locAmbIn = glGetUniformLocation(shader, "ambIn" );
+		int locDiffIn = glGetUniformLocation(shader, "diffIn");
+		int locSpecIn = glGetUniformLocation(shader, "specIn");
+		int locShinIn = glGetUniformLocation(shader, "shinIn");
 		glBindBuffer(GL_ARRAY_BUFFER, vertArray);
 
 		while (am.hasMoreModels())
@@ -45,11 +49,16 @@ namespace ssfw
 			m.vertBuf->bind();
 			for (int i = 0; i < m.materials.size(); i++)
 			{
-					m.materials[i].indBuf->bind();
-				glUniform4f(location, m.materials[i].specular[0], m.materials[i].specular[1], m.materials[i].specular[2], m.materials[i].specular[3]);
+				m.materials[i].indBuf->bind();
+
 				glUniformMatrix4fv(locModMat, 1, false, &modMatA[0]);
 				glUniformMatrix4fv(locViewMat, 1, false, &viewMatA[0]);
 				glUniformMatrix4fv(locProjMat, 1, false, &projMatA[0]);
+				glUniform4fv(locEmisIn, 1, &m.materials[i].emission[0]);
+				glUniform4fv(locAmbIn, 1, &m.materials[i].ambient[0]);
+				glUniform4fv(locDiffIn, 1, &m.materials[i].diffuse[0]);
+				glUniform4fv(locSpecIn, 1, &m.materials[i].specular[0]);
+				glUniform1f(locShinIn, m.materials[i].shininess);
 				glBindVertexArray(vertArray);
 				glDrawElements(GL_TRIANGLES, m.materials[i].indices.size(), GL_UNSIGNED_INT, nullptr);
 			}
